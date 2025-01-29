@@ -30,3 +30,24 @@ async function fetchLiveScore() {
 // Fetch live scores every 30 seconds
 setInterval(fetchLiveScore, 30000);
 fetchLiveScore();
+
+// Fetch live scores every 30 seconds
+setInterval(fetchLiveScore, 30000);
+fetchLiveScore();
+
+function countDownToNextMatch(matchTime) {
+    const matchDate = new Date(matchTime);
+    const now = new Date();
+    const timeRemaining = matchDate - now;
+
+    if (timeRemaining > 0) {
+        const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('score').innerText = `Next match in: ${hours} hours ${minutes} minutes`; // Corrected string interpolation
+    } else {
+        document.getElementById('score').innerText = 'Match live now!';
+    }
+}
+
+// Example: Run countDownToNextMatch when a match is scheduled.
+countDownToNextMatch('2025-02-14T21:00:00Z'); // Set this to the time of the next match.
