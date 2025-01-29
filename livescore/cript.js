@@ -8,24 +8,32 @@ async function fetchLiveScore() {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch data');
+      throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
     
-    if (data.matches.length > 0) {
+    const team1Element = document.getElementById('team1');
+    const team2Element = document.getElementById('team2');
+    const scoreElement = document.getElementById('score');
+
+    if (data.matches && data.matches.length > 0) {
       const match = data.matches[0]; // Assuming there's at least one live match
-      document.getElementById('team1').innerText = match.homeTeam.name;
-      document.getElementById('team2').innerText = match.awayTeam.name;
-      document.getElementById('score').innerText = `${match.score.fullTime.home} - ${match.score.fullTime.away}`; // Corrected template literal syntax
+      if (team1Element) team1Element.innerText = match.homeTeam.name;
+      if (team2Element) team2Element.innerText = match.awayTeam.name;
+      if (scoreElement) scoreElement.innerText = `${match.score.fullTime.home} - ${match.score.fullTime.away}`; // Corrected template literal syntax
     } else {
-      document.getElementById('score').innerText = 'No live matches currently';
+      if (scoreElement) scoreElement.innerText = 'No live matches currently';
     }
   } catch (error) {
     console.error('Error fetching live score:', error);
-    document.getElementById('score').innerText = 'Error loading score';
+    const scoreElement = document.getElementById('score');
+    if (scoreElement) scoreElement.innerText = 'Error loading score';
   }
 }
+
+// Call the function to fetch live scores
+fetchLiveScore();
 
 
 
